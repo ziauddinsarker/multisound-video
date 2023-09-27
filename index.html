@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video and Sound Player</title>
+    <style>
+        button {
+            margin: 10px;
+        }
+
+        #video {
+            max-width: 100%; /* Set the maximum width to 100% */
+            height: auto; /* Allow the height to adjust proportionally */
+        }
+    </style>
+</head>
+<body>
+<button id="sound1Button">Play Sound 1</button>
+<button id="sound2Button">Play Sound 2</button>
+
+<video id="video" src="assets/video.mp4" controls></video>
+<audio id="sound1" src="assets/sound1.wav"></audio>
+<audio id="sound2" src="assets/sound2.wav"></audio>
+
+<script>
+    const sound1Button = document.getElementById("sound1Button");
+    const sound2Button = document.getElementById("sound2Button");
+    const video = document.getElementById("video");
+    const sound1 = document.getElementById("sound1");
+    const sound2 = document.getElementById("sound2");
+
+    let currentSound = sound1;
+    let pausedTime = 0;
+
+    sound1Button.addEventListener("click", () => {
+        if (currentSound !== sound1) {
+            pausedTime = currentSound.currentTime;
+            currentSound.pause();
+            currentSound = sound1;
+            sound1.currentTime = pausedTime;
+        }
+        currentSound.play();
+    });
+
+    sound2Button.addEventListener("click", () => {
+        if (currentSound !== sound2) {
+            pausedTime = currentSound.currentTime;
+            currentSound.pause();
+            currentSound = sound2;
+            sound2.currentTime = pausedTime;
+        }
+        currentSound.play();
+    });
+
+    video.addEventListener("play", () => {
+        currentSound.play();
+    });
+
+    video.addEventListener("pause", () => {
+        currentSound.pause();
+    });
+</script>
+</body>
+</html>
