@@ -9,26 +9,89 @@
             margin: 10px;
         }
 
+        #video-container {
+            position: relative;
+            text-align: center;
+        }
+
         #video {
-            max-width: 100%; /* Set the maximum width to 100% */
-            height: auto; /* Allow the height to adjust proportionally */
+            max-width: 32%;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+            margin-left: 20%;
+            margin-right: 25%;
+            margin-bottom: 50%;
+            margin-top: 17%;
+        }
+
+        #playButton {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #imageContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #image1, #image2 {
+            display: none;
+            position: absolute;
+        }
+
+        #image1{
+            margin: -125px 58px 0 0px
+        }
+
+        #backgroundImage {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
-<button id="sound1Button">Play Sound 1</button>
-<button id="sound2Button">Play Sound 2</button>
+<div id="video-container">
+    <img id="backgroundImage" src="assets/background.webp">
+    <div id="imageContainer">
+        <video id="video" src="assets/video.mp4" controls></video>
+        <img id="image1" src="assets/image1.png" width="200">
+        <img id="image2" src="assets/image2.png" width="200">
+    </div>
+</div>
+<!-- Place the sound radio buttons below the image -->
+<label>
+    <input type="radio" name="sound" id="sound1Button" checked> Conventional TV sound
+</label>
+<label>
+    <input type="radio" name="sound" id="sound2Button"> Mirai Speaker
+</label>
 
-<video id="video" src="assets/video.mp4" controls></video>
 <audio id="sound1" src="assets/sound1.wav"></audio>
 <audio id="sound2" src="assets/sound2.wav"></audio>
 
+<!--<div id="playButton" >Play</div>-->
+<img id="playButton" src="assets/play_button.png" width="200">
 <script>
     const sound1Button = document.getElementById("sound1Button");
     const sound2Button = document.getElementById("sound2Button");
     const video = document.getElementById("video");
     const sound1 = document.getElementById("sound1");
     const sound2 = document.getElementById("sound2");
+    const playButton = document.getElementById("playButton");
+    const image1 = document.getElementById("image1");
+    const image2 = document.getElementById("image2");
 
     let currentSound = sound1;
     let pausedTime = 0;
@@ -41,6 +104,7 @@
             sound1.currentTime = pausedTime;
         }
         currentSound.play();
+        showImage(image1);
     });
 
     sound2Button.addEventListener("click", () => {
@@ -51,6 +115,26 @@
             sound2.currentTime = pausedTime;
         }
         currentSound.play();
+        showImage(image2);
+    });
+
+    // Function to show an image and hide the other one
+    function showImage(imageToShow) {
+        if (imageToShow === image1) {
+            image1.style.display = "block";
+            image2.style.display = "none";
+        } else {
+            image1.style.display = "none";
+            image2.style.display = "block";
+        }
+    }
+
+    playButton.addEventListener("click", () => {
+        if (video.paused) {
+            video.play();
+            currentSound.play();
+            playButton.style.display = "none";
+        }
     });
 
     video.addEventListener("play", () => {
@@ -59,7 +143,9 @@
 
     video.addEventListener("pause", () => {
         currentSound.pause();
+        playButton.style.display = "block";
     });
 </script>
+
 </body>
 </html>
